@@ -7,7 +7,6 @@ import {
   CircularProgress,
   TextField,
 } from "@mui/material";
-import { DialogsProvider, useDialogs } from "@toolpad/core";
 import React, { useEffect, useRef, useState } from "react";
 
 export default function MuiDialogerProvider({ children, dialogerRef }) {
