@@ -183,7 +183,14 @@ export default function MuiDialogerProvider({ children, dialogerRef }) {
                   dialogeds.splice(dialogeds.indexOf(dialoged), 1);
                   setDialogeds([...dialogeds]);
 
-                  resolve(result);
+                  const [ok, data] = result;
+
+                  if (ok == true) {
+                    resolve(data);
+                    return;
+                  }
+
+                  reject(data);
                 }}
               />
             ),
@@ -201,10 +208,6 @@ export default function MuiDialogerProvider({ children, dialogerRef }) {
           useState(() => {
             promptInputRef.current.value = defaultInput;
           }, []);
-
-          async function doSubmit() {
-            close(promptInputRef.current.value);
-          }
 
           return (
             <form
@@ -234,11 +237,19 @@ export default function MuiDialogerProvider({ children, dialogerRef }) {
                 <Button
                   onClick={(ev) => {
                     ev.preventDefault();
-                    doSubmit();
+                    close(promptInputRef.current.value);
                   }}
                   autoFocus
                 >
                   submit
+                </Button>
+                <Button
+                  onClick={(ev) => {
+                    ev.preventDefault();
+                    close(null);
+                  }}
+                >
+                  cancel
                 </Button>
               </DialogActions>
             </form>
